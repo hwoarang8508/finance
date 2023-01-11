@@ -39,7 +39,7 @@ var Expense = function(id, description, value){
 };
 
 var data = {
-    allItems: {
+    Items: {
         inc: [],
         exp: []
     },
@@ -47,6 +47,28 @@ var data = {
         inc:200,
         exp:500
      }
+};
+return{
+    addItem:  function (type, desc,val) {
+       var Item, id;
+        if (data.Items[type].length === 0) id= 1;
+        else {
+           id =  data.Items[type][data.Items[type].length - 1].id + 1;
+        }
+      
+       
+       if( type=== "inc" ){
+        Item= new Income(id,desc,val);
+       } else {
+        Item= new Income(id,desc,val);
+       }
+
+data.Items[type].push(Item);
+
+    },
+    seedata: function(){
+        return data;
+    }
 }
 
 
@@ -55,8 +77,10 @@ var data = {
 //программын холбогч контроллер
 
 var appController= (function(uiController,financeController){
-    var DOM = uiController.getDOMstrings();
-    var ctrlAddItem = function(){console.log(uiController.getInput())};
+    var ctrlAddItem = function(){
+        var input = uiController.getInput();
+        financeController.addItem( input.type, input.description, input.value);
+    };
 
     var setupEventListeners = function(){
         var DOM = uiController.getDOMstrings();
